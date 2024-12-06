@@ -1,3 +1,6 @@
 data/
 
-__pycache__/
+lora/__pycache__/
+
+
+test.ipynb
