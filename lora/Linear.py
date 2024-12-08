@@ -2,17 +2,11 @@ from torch import nn
 from .LoRA import LoRAConfig
 
 class Linear(nn.Module, LoRAConfig):
-    def __init__(self, features_in, features_out) -> None:
+    def __init__(self, in_features, out_features) -> None:
         super().__init__()
-        self.features_in = features_in
-        self.features_out = features_out
-        self.linear = nn.Linear(self.features_in, self.features_out)
-        self.enable_lora = False
-        self.lora_A = None
-        self.lora_B = None
-        self.alpha = None
-        self.rank = None
-        self.scale = None
+        self.in_features = in_features
+        self.out_features = out_features
+        self.linear = nn.Linear(self.in_features, self.out_features)
     
     def forward(self, X):
         if self.enable_lora:
@@ -21,19 +15,18 @@ class Linear(nn.Module, LoRAConfig):
             return self.linear(X)
     
     def set_lora_configs(self, rank, alpha):
-        self.rank = rank
-        self.alpha = alpha
-        self.scale = alpha / rank
-        self.lora_A = nn.Linear(self.features_in, rank, bias=False)
+        LoRAConfig.set_lora_configs(self, rank, alpha)
+        self.lora_A = nn.Linear(self.in_features, rank, bias=False)
         nn.init.normal_(self.lora_A.weight)
-        self.lora_B = nn.Linear(rank, self.features_out, bias=False)
+        self.lora_B = nn.Linear(rank, self.out_features, bias=False)
         nn.init.zeros_(self.lora_B.weight)
     
-    def set_lora_status(self, enable_lora: bool):
-        self.enable_lora = enable_lora
-        self._set_params_status(enable_lora)
     
     def _set_params_status(self, freeze_params: bool):
         for param in self.linear.parameters():
             param.requires_grad = not freeze_params
-    
+
+if __name__ == '__main__':
+    l = Linear(28 * 28, 10)
+    l.set_lora_configs(8, 1)
+    print(l)
