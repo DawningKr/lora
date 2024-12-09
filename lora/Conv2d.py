@@ -9,7 +9,8 @@ class Conv2d(nn.Module, LoRAConfig):
                  groups=1, 
                  bias=True
     ):
-        super().__init__()
+        nn.Module.__init__(self)
+        LoRAConfig.__init__(self)
         self.in_channel = in_channel
         self.out_channel = out_channel
         self.kernel_size = kernel_size
@@ -24,6 +25,12 @@ class Conv2d(nn.Module, LoRAConfig):
                                 groups=groups,
                                 bias=bias
                                 )
+    
+    def forward(self, X):
+        if self.enable_lora:
+            return self.conv2d(X) + self.lora_B(self.lora_A(X)) * self.scale
+        else :
+            return self.conv2d(X)
 
     def set_lora_configs(self, rank, alpha):
         LoRAConfig.set_lora_configs(self, rank, alpha)

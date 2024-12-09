@@ -3,7 +3,8 @@ from .LoRA import LoRAConfig
 
 class Linear(nn.Module, LoRAConfig):
     def __init__(self, in_features, out_features) -> None:
-        super().__init__()
+        nn.Module.__init__(self)
+        LoRAConfig.__init__(self)
         self.in_features = in_features
         self.out_features = out_features
         self.linear = nn.Linear(self.in_features, self.out_features)
