@@ -4,15 +4,17 @@ This project is a version of LoRA implementation from bottom to Top
 
 Explaining modules in package lora:
 
-- Linear:
+- nn:
 
-  - this is an enhanced version of torch.nn.Linear
-  - you can set LoRA parameters by calling the function "set_lora_configs" and then relevant matrices will be created
-  - you can start LoRA mode by calling the function "set_lora_status" and pass in True
+  - Linear:
 
-- Conv2d:
+    - this is an enhanced version of torch.nn.Linear
+    - you can set LoRA parameters by calling the function "set_lora_configs" and then relevant matrices will be created
+    - you can start LoRA mode by calling the function "set_lora_status" and pass in True
 
-  - this is an enhanced version of torch.nn.Conv2d
+  - Conv2d:
+
+    - this is an enhanced version of torch.nn.Conv2d
 
 - LoRA:
 

@@ -1,8 +1,10 @@
 from .LoRA import LoRA
 
+
 def lora_state_dict(model: LoRA):
     state_dict = model.state_dict()
-    return {key: state_dict[key] for key in state_dict.keys() if 'lora' in key}
+    return {key: state_dict[key] for key in state_dict.keys() if "lora" in key}
+
 
 def set_lora_configs_all(model: LoRA, rank: int, alpha: int, enable_lora=True):
     lora_layers = model.get_lora_layers()

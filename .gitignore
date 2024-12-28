@@ -1,6 +1,6 @@
 data/
 
-lora/__pycache__/
+__pycache__/
 
 test.ipynb
 

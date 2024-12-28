@@ -1,4 +1,3 @@
-from .Linear import *
+from . import nn
 from .LoRA import *
 from .utils import *
-from .Conv2d import *

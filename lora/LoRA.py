@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+
 class LoRA(ABC):
     @abstractmethod
     def get_lora_layers(self) -> Any:
         pass
+
 
 class LoRAConfig(ABC):
     def __init__(self):
