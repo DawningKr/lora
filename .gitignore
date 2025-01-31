@@ -1,0 +1,9 @@
+data/
+
+__pycache__/
+
+test.ipynb
+
+.mypy_cache/
+
+.vscode/
