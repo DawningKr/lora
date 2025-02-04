@@ -23,7 +23,7 @@ class LoRAConfig(ABC):
     def set_lora_configs(self, rank, alpha):
         self.rank = rank
         self.alpha = alpha
-        self.scale = rank / alpha
+        self.scale = alpha / rank
 
     def set_lora_status(self, enable_lora: bool):
         self.enable_lora = enable_lora
