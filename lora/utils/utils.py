@@ -1,4 +1,4 @@
-from ..lora import LoRA, LoRAConfig
+from ..lora import LoRA, LoRALayer
 from .exceptions import ModelModificationError
 
 
@@ -14,7 +14,7 @@ def set_lora_configs_all(model, rank: int, alpha: int, enable_lora=True):
         for layer in lora_layers:
             layer.set_lora_configs(rank, alpha)
             layer.set_lora_status(enable_lora)
-    elif isinstance(model, LoRAConfig):
+    elif isinstance(model, LoRALayer):
         model.set_lora_configs(rank, alpha)
         model.set_lora_status(enable_lora)
     else:
