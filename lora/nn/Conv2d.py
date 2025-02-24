@@ -1,8 +1,8 @@
 from torch import nn
-from ..lora import LoRAConfig
+from ..lora import LoRALayer
 
 
-class Conv2d(nn.Module, LoRAConfig):
+class Conv2d(nn.Module, LoRALayer):
     def __init__(
         self,
         in_channels,
@@ -15,7 +15,7 @@ class Conv2d(nn.Module, LoRAConfig):
         bias=True,
     ):
         nn.Module.__init__(self)
-        LoRAConfig.__init__(self)
+        LoRALayer.__init__(self)
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.kernel_size = kernel_size
@@ -41,7 +41,7 @@ class Conv2d(nn.Module, LoRAConfig):
             return self.conv2d(X)
 
     def set_lora_configs(self, rank, alpha):
-        LoRAConfig.set_lora_configs(self, rank, alpha)
+        LoRALayer.set_lora_configs(self, rank, alpha)
         self.lora_A = nn.Conv2d(
             self.in_channels,
             rank,
@@ -61,10 +61,3 @@ class Conv2d(nn.Module, LoRAConfig):
     def _set_params_status(self, freeze_params: bool):
         for param in self.conv2d.parameters():
             param.requires_grad = not freeze_params
-
-
-if __name__ == "__main__":
-    c = Conv2d(3, 6, 3)
-    print(c)
-    c.set_lora_configs(8, 1)
-    print(c)

@@ -10,7 +10,7 @@ class LoRA(ABC):
         pass
 
 
-class LoRAConfig(ABC):
+class LoRALayer(ABC):
     def __init__(self):
         self.rank = None
         self.alpha = None
