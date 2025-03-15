@@ -40,8 +40,8 @@ class Conv2d(nn.Module, LoRALayer):
         else:
             return self.conv2d(X)
 
-    def set_lora_configs(self, rank, alpha):
-        LoRALayer.set_lora_configs(self, rank, alpha)
+    def set_lora_configs(self, rank, alpha, bias=False):
+        LoRALayer.set_lora_configs(self, rank, alpha, bias)
         self.lora_A = nn.Conv2d(
             self.in_channels,
             rank,
@@ -53,10 +53,12 @@ class Conv2d(nn.Module, LoRALayer):
             bias=False,
         )
         self.lora_B = nn.Conv2d(
-            rank, self.out_channels, kernel_size=1, stride=1, padding=0, bias=False
+            rank, self.out_channels, kernel_size=1, stride=1, padding=0, bias=bias
         )
         nn.init.normal_(self.lora_A.weight)
         nn.init.zeros_(self.lora_B.weight)
+        if bias:
+            nn.init.zeros_(self.lora_B.bias)
 
     def _set_params_status(self, freeze_params: bool):
         for param in self.conv2d.parameters():
